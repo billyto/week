@@ -1,9 +1,9 @@
 
-use chrono::{Datelike, NaiveDate, ParseError};
+use chrono::{Datelike, NaiveDate, ParseError, Local};
 use clap::Parser;
 
 
-/// Simple utility ti get week number
+/// Simple utility to get week number
 #[derive(Parser,Debug)]
 #[command(version, about, long_about = None)]
 struct Args{
@@ -15,10 +15,11 @@ struct Args{
 fn main() {
     let args = Args::parse();
     let date = args.date; 
-    let mydate = date.unwrap_or(String::from("2024-02-19"));
+    let this_week = Local::now().date_naive().iso_week().week();
 
-    let week_year = week(&mydate).expect("Date format should be %Y-%m-%d");
-    println!("Is weeek {}", week_year);
+    let week_of_year = date.map_or(this_week, |day| week(&day).unwrap());
+
+    println!("Is weeek {}", week_of_year);
 
 }
 
