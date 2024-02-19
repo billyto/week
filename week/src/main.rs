@@ -1,9 +1,24 @@
 
 use chrono::{Datelike, NaiveDate, ParseError};
+use clap::Parser;
 
+
+/// Simple utility ti get week number
+#[derive(Parser,Debug)]
+#[command(version, about, long_about = None)]
+struct Args{
+    // Optional date on "%Y-%m-%d" format, if no date pased, takes the current date.
+    #[arg(short, long)]
+    date: Option<String>
+
+}
 fn main() {
-    println!("This is week 42 (Not really just a place holder)");
+    let args = Args::parse();
+    let date = args.date; 
+    let mydate = date.unwrap_or(String::from("2024-02-19"));
 
+    let week_year = week(&mydate).expect("Date format should be %Y-%m-%d");
+    println!("Is weeek {}", week_year);
 
 }
 
