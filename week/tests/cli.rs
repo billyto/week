@@ -8,7 +8,7 @@ fn todays_week() -> Result<(), Box<dyn std::error::Error>> {
 
 
     let mut cmd = Command::cargo_bin("week")?;
-    cmd.assert().success().stdout(predicate::str::is_match("Is week \\d\n").unwrap()); //.stdout(predicate::str::is_match("[0-9][0-9]"));
+    cmd.assert().success().stdout(predicate::str::is_match("Is weeek \\d{1,2}\\n").unwrap()); //.stdout(predicate::str::is_match("[0-9][0-9]"));
     Ok(())
 }
 
