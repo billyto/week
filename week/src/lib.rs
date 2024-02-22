@@ -9,7 +9,7 @@ pub fn year_week(date: Option<String>) ->  Result<u32, ParseError> {
 }
 
 
-pub fn week(str_date: &str) -> Result<u32, ParseError> {
+fn week(str_date: &str) -> Result<u32, ParseError> {
 
     let iso_week = NaiveDate::parse_from_str(str_date, "%Y-%m-%d").
                             or(NaiveDate::parse_from_str(str_date, "%Y/%m/%d"))?.   //support date w/o year (for current)
@@ -24,18 +24,30 @@ pub fn week(str_date: &str) -> Result<u32, ParseError> {
 #[cfg(test)]
 mod tests {
 
-    use crate::week;
+    use crate::year_week;
 
-//TODO: Tests for this_week
     #[test]
     fn test_week_slashes(){
-        assert_eq!(week("2023/02/19"), Ok(7));
+
+        let date_slash = Some("2023/02/19".to_string());
+        assert_eq!(year_week(date_slash),Ok(7));
 
     }
 
     #[test]
     fn test_week_dashes(){
-        assert_eq!(week("2023-02-19"), Ok(7));
+        let date_dash = Some("2023-02-19".to_string());
+        assert_eq!(year_week(date_dash),Ok(7));
+
+    }
+
+    #[test]
+    fn test_this_week_(){
+        
+        let date_dash = None;
+        let weeks = 1..52; //I don't know when is the reader running this test ¯\_(ツ)_/¯
+        let this_week = year_week(date_dash).unwrap();
+        assert!(weeks.contains(&this_week));
 
     }
 
