@@ -1,4 +1,5 @@
 use clap::Parser;
+use anyhow::{Context, Ok, Result};
 use week::year_week;
 
 
@@ -11,12 +12,14 @@ struct Args{
     date: Option<String>
 
 }
-fn main() { //TODO: manage Error with anyhow?
+fn main() -> Result<()>{ 
+
     let args = Args::parse();
     let date = args.date; 
 
-    let week_of_year = year_week(date).unwrap();
+    let week_of_year = year_week(date).with_context(|| format!("Unable to parse date"))?;
     println!("Is weeek {}", week_of_year);
+    Ok(())
 
 }
 
