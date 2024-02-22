@@ -12,7 +12,7 @@ pub fn year_week(date: Option<String>) ->  Result<u32, ParseError> {
 pub fn week(str_date: &str) -> Result<u32, ParseError> {
 
     let iso_week = NaiveDate::parse_from_str(str_date, "%Y-%m-%d").
-                            or(NaiveDate::parse_from_str(str_date, "%Y/%m/%d"))?.
+                            or(NaiveDate::parse_from_str(str_date, "%Y/%m/%d"))?.   //support date w/o year (for current)
                             iso_week();
     
     Ok(iso_week.week())
@@ -26,7 +26,7 @@ mod tests {
 
     use crate::week;
 
-
+//TODO: Tests for this_week
     #[test]
     fn test_week_slashes(){
         assert_eq!(week("2023/02/19"), Ok(7));

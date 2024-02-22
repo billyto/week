@@ -11,7 +11,7 @@ struct Args{
     date: Option<String>
 
 }
-fn main() {
+fn main() { //TODO: manage Error with anyhow?
     let args = Args::parse();
     let date = args.date; 
 
