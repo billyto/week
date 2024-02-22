@@ -1,5 +1,5 @@
-use chrono::{Datelike, Local};
 use clap::Parser;
+use week::year_week;
 
 
 /// Simple utility to get week number
@@ -14,10 +14,8 @@ struct Args{
 fn main() {
     let args = Args::parse();
     let date = args.date; 
-    let this_week = Local::now().date_naive().iso_week().week();
 
-    let week_of_year = date.map_or(this_week, |day| week::week(&day).unwrap());
-
+    let week_of_year = year_week(date).unwrap();
     println!("Is weeek {}", week_of_year);
 
 }

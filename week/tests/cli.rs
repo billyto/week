@@ -24,7 +24,7 @@ fn date_week() -> Result<(), Box<dyn std::error::Error>> {
 #[test]
 fn invalid_date() -> Result<(), Box<dyn std::error::Error>>{
     let mut cmd = Command::cargo_bin("week")?;
-    cmd.arg("--date").arg("2023/02/19");
+    cmd.arg("--date").arg("2023-02/19");
     cmd.assert().failure();
     Ok(())
 
