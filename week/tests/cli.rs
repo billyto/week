@@ -17,7 +17,7 @@ fn todays_week() -> Result<(), Box<dyn std::error::Error>> {
 fn date_week() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut cmd = Command::cargo_bin("week")?;
-    cmd.arg("--date").arg("2023-02-19");
+    cmd.arg("--date").arg("19-02-2023");
     cmd.assert().success().stdout(predicate::str::contains("Is weeek 7"));
     Ok(())
 }

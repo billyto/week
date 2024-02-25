@@ -12,7 +12,7 @@ week [date] //Gives the week for [date]
 
 TODOs:
 
-[] fix valid formats, no yeat first and right %xx descriptors
+[x] fix valid formats, no yeat first and right %xx descriptors
 [] CICD for release version
 [] Better cli args descriptions
 [] Tests on ErrorParse  

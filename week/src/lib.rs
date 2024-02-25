@@ -39,8 +39,8 @@ fn yearless_week(str_date: &str) -> Result<NaiveDate, ParseError> {
 
  fn week(str_date: &str) -> Result<u32, ParseError> {
 
-    let iso_week = NaiveDate::parse_from_str(str_date, "%Y-%m-%d").
-                            or(NaiveDate::parse_from_str(str_date, "%Y/%m/%d")).
+    let iso_week = NaiveDate::parse_from_str(str_date, "%d-%m-%Y").
+                            or(NaiveDate::parse_from_str(str_date, "%d/%m/%Y")).
                             or_else(|_| yearless_week(str_date) )?.
                             iso_week();
     
@@ -59,14 +59,14 @@ mod tests {
     #[test]
     fn test_week_slashes(){
 
-        let date_slash = Some("2023/02/19".to_string());
+        let date_slash = Some("19/02/2023".to_string());
         assert_eq!(year_week(date_slash),Ok(7));
 
     }
 
     #[test]
     fn test_week_dashes(){
-        let date_dash = Some("2023-02-19".to_string());
+        let date_dash = Some("19-02-2023".to_string());
         assert_eq!(year_week(date_dash),Ok(7));
 
     }
