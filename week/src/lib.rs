@@ -6,7 +6,7 @@ use regex::Regex;
 pub fn year_week(date: Option<String>) ->  Result<u32, ParseError> {
 
     let this_week = Local::now().date_naive().iso_week().week();
-    date.map_or(Ok(this_week), |day| week2(&day))
+    date.map_or(Ok(this_week), |day| week(&day))
 
 }
 
@@ -25,12 +25,7 @@ fn old_week(str_date: &str) -> Result<u32, ParseError> { //TODO: will remove
 fn yearless_week(str_date: &str) -> Result<NaiveDate, ParseError> {
 
     //check for day/month or day.month
-    let re = Regex::new(r"(?<day>[0-9]{2})/(?<month>[0-9]{2})").unwrap();
-
-    // let dates: Vec<(&str, &str)> = re.captures_iter(str_date).map(|caps| {
-    //     let (_, [day, month]) = caps.extract();
-    //     (day,month)
-    // }).collect();
+    let re = Regex::new(r"(?<day>[0-9]{1,2})[/|.](?<month>[0-9]{1,2})").unwrap(); 
 
     let caps = re.captures(str_date).unwrap();
     let day = caps.name("day").unwrap().as_str().parse::<u32>().unwrap();
@@ -39,12 +34,10 @@ fn yearless_week(str_date: &str) -> Result<NaiveDate, ParseError> {
     let current_date = chrono::Utc::now();
     let year = current_date.year();
 
-
-
     Ok(NaiveDate::from_ymd_opt(year, month, day).unwrap())
 }
 
- fn week2(str_date: &str) -> Result<u32, ParseError> {
+ fn week(str_date: &str) -> Result<u32, ParseError> {
 
     let iso_week = NaiveDate::parse_from_str(str_date, "%Y-%m-%d").
                             or(NaiveDate::parse_from_str(str_date, "%Y/%m/%d")).
@@ -60,9 +53,8 @@ fn yearless_week(str_date: &str) -> Result<NaiveDate, ParseError> {
 #[cfg(test)]
 mod tests {
 
-    use chrono::{Datelike, NaiveDate};
 
-    use crate::{year_week, yearless_week};
+    use crate::{year_week, week};
 
     #[test]
     fn test_week_slashes(){
@@ -92,15 +84,10 @@ mod tests {
     #[test]
     fn test_yearless_date(){
 
-        let yearless_date = "02/10";
-        let naive_result = yearless_week(yearless_date).ok().unwrap();
+        let yearless_date = "02.01";  // This date should always land on week 1
+        let week = week(yearless_date).ok().unwrap();
 
-        let current_date = chrono::Utc::now();
-        let year = current_date.year();
-
-        let naive_expected = NaiveDate::from_ymd_opt(year,10, 2).unwrap();
-
-        assert_eq!(naive_expected,naive_result)
+        assert_eq!(1,week)
 
     }
 

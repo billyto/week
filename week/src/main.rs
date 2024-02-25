@@ -7,7 +7,7 @@ use week::year_week;
 #[derive(Parser,Debug)]
 #[command(version, about, long_about = None)]
 struct Args{
-    // Optional date on "%Y-%m-%d" format, if no date pased, takes the current date.
+    // Optional date on "%Y-%m-%d",  "%d/%m" or "%d.%m" format, if no date pased, takes the current date.
     #[arg(short, long)]
     date: Option<String>
 
