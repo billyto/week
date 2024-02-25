@@ -1,6 +1,6 @@
 # .github/workflows/release.yml
 
-name: release
+name: Release
 
 on:
   release:
@@ -23,7 +23,6 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Compile and release
-        working-directory: ./week
         uses: rust-build/rust-build.action@v1.4.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
