@@ -1,18 +1,32 @@
 # week
-Simple CLI to get the week of the year for a given date
+Simple CLI utility to return the ISO week number starting from 1.
 
 ## Use cases
 
 ```
-week  //Gives the week for today
+week  //The week of the year for today
 
-week [date] //Gives the week for [date]
-
+week [--date date] //Gives the week for 'date'
 ```
 
-TODOs:
+## Suported Date formats
+* %d-%m-%Y
+
+* %d/%m/%Y
+
+* %d/%m
+
+* %d.%m
+
+
+---
+
+### TODOs:
 
 [x] fix valid formats, no yeat first and right %xx descriptors
-[] CICD for release version
+
+[x] CICD for release version
+
 [] Better cli args descriptions
+
 [] Tests on ErrorParse  
