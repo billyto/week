@@ -1,4 +1,4 @@
-# .github/workflows/release.yml
+# .github/workflows/releasing.yml
 
 name: Releasing
 
