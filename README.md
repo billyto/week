@@ -1,3 +1,6 @@
+[![Build & Test](https://github.com/billyto/week/actions/workflows/build.yml/badge.svg)](https://github.com/billyto/week/actions/workflows/build.yml)
+
+
 # week
 Simple CLI utility to return the ISO week number starting from 1.
 
