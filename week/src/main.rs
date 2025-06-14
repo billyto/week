@@ -6,8 +6,8 @@ use week::year_week;
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
-    // Optional date on "%d-%m-%Y", "%d/%m/%Y" ,  "%d/%m" or "%d.%m" format, if no date passed, takes the current date.
-    #[arg(short, long)] //TODO: support %d.%m.%Y and %d-%m
+    // Optional date on "%d-%m-%Y", "%d/%m/%Y" , %d.%m.%Y,  %d-%m, "%d/%m" or "%d.%m" format, if no date passed, takes the current date.
+    #[arg(short, long)] 
     date: Option<String>,
 }
 fn main() -> Result<()> {

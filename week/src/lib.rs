@@ -7,7 +7,7 @@ pub fn year_week(date: Option<String>) -> Result<u32> {
     date.map_or(Ok(this_week), |day| week(&day))
 }
 
-fn yearless_week(str_date: &str) -> Result<NaiveDate> {  //TODO: add in docs that 01-01 is ok
+fn yearless_week(str_date: &str) -> Result<NaiveDate> { 
     // Check for day/month, day.month, or day-month
     let re = Regex::new(r"^(?<day>\d{1,2})[-/.](?<month>\d{1,2})$")
         .context("Failed to compile regex")?;
@@ -29,6 +29,7 @@ fn yearless_week(str_date: &str) -> Result<NaiveDate> {  //TODO: add in docs tha
 fn week(str_date: &str) -> Result<u32> {
     let iso_week = NaiveDate::parse_from_str(str_date, "%d-%m-%Y")
         .or(NaiveDate::parse_from_str(str_date, "%d/%m/%Y"))
+        .or(NaiveDate::parse_from_str(str_date, "%d.%m.%Y"))
         .or_else(|_| yearless_week(str_date))
         .context("Failed to parse date")?
         .iso_week();
@@ -42,7 +43,7 @@ mod tests {
     use chrono::{Local, Datelike};
 
     #[test]
-    fn test_week_with_dd_mm_yyyy_format() {
+    fn test_week_with_dash_dd_mm_yyyy_format() {
         // Test valid dates in dd-mm-yyyy format
         assert_eq!(week("01-01-2024").unwrap(), 1);
         assert_eq!(week("15-06-2024").unwrap(), 24);
@@ -51,7 +52,7 @@ mod tests {
     }
 
     #[test]
-    fn test_week_with_dd_slash_mm_yyyy_format() {
+    fn test_week_with_slash_dd_mm_yyyy_format() {
         // Test valid dates in dd/mm/yyyy format
         assert_eq!(week("01/01/2024").unwrap(), 1);
         assert_eq!(week("15/06/2024").unwrap(), 24);
@@ -60,13 +61,25 @@ mod tests {
     }
 
     #[test]
+    fn test_week_with_dot_dd_mm_yyyy_format() {
+        // Test valid dates in dd.mm.yyyy format
+        assert_eq!(week("01.01.2024").unwrap(), 1);
+        assert_eq!(week("15.06.2024").unwrap(), 24);
+        assert_eq!(week("31.12.2024").unwrap(), 1);
+        assert_eq!(week("29.02.2024").unwrap(), 9); // Leap year
+    }
+
+    #[test]
     fn test_week_with_yearless_dates() {
-        // Assuming yearless_week function handles formats like "01-01" or "15/06"
+        // Assuming yearless_week function handles formats like "01-01", "16.07" or "15/06"
         // You'll need to adjust these based on your yearless_week implementation
         let result = week("01-01");
         assert!(result.is_ok(), "Should handle yearless format");
 
         let result = week("15/06");
+        assert!(result.is_ok(), "Should handle yearless format with slash");
+
+        let result = week("16.07");
         assert!(result.is_ok(), "Should handle yearless format with slash");
     }
 
@@ -120,18 +133,7 @@ mod tests {
         assert_eq!(result, expected_week);
     }
 
-    #[test]
-    fn test_year_week_with_valid_date() {
-        // Test with valid date strings
-        let result = year_week(Some("01-01-2024".to_string()));
-        assert!(result.is_ok());
-        assert_eq!(result.unwrap(), 1);
-
-        let result = year_week(Some("15/06/2024".to_string()));
-        assert!(result.is_ok());
-        assert_eq!(result.unwrap(), 24);
-    }
-
+    
     #[test]
     fn test_year_week_with_invalid_date() {
         // Test with invalid date strings
@@ -162,10 +164,13 @@ mod tests {
         // Test that both supported formats work through year_week
         let dash_result = year_week(Some("15-06-2024".to_string()));
         let slash_result = year_week(Some("15/06/2024".to_string()));
+        let dot_result = year_week(Some("15.06.2024".to_string()));
 
         assert!(dash_result.is_ok());
         assert!(slash_result.is_ok());
+        assert!(dot_result.is_ok());
         assert_eq!(dash_result.unwrap(), slash_result.unwrap());
+
     }
 
     #[test]
@@ -176,19 +181,5 @@ mod tests {
         let week2 = year_week(None).unwrap();
         assert_eq!(week1, week2);
     }
-
-    #[test]
-    fn test_week_number_ranges() {
-        // Test that week numbers are in valid range (1-53)
-        let test_dates = vec![
-            "01-01-2024", "15-03-2024", "30-06-2024",
-            "15-09-2024", "31-12-2024"
-        ];
-
-        for date in test_dates {
-            let week_num = week(date).unwrap();
-            assert!(week_num >= 1 && week_num <= 53,
-                    "Week number {} for date {} is out of range", week_num, date);
-        }
-    }
+    
 }

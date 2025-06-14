@@ -9,16 +9,15 @@ Simple CLI utility to return the ISO week number starting from 1.
 ```
 week  //The week of the year for today
 
-week [--date date] //Gives the week for 'date'
+week [--date date] //Week for a given 'date'
 ```
 
 ## Suported Date formats
 * %d-%m-%Y
-
 * %d/%m/%Y
-
+* %d.%m%.%Y
+* %d-%m
 * %d/%m
-
 * %d.%m
 
 
@@ -26,10 +25,7 @@ week [--date date] //Gives the week for 'date'
 
 ### TODOs:
 
-[x] fix valid formats, no yeat first and right %xx descriptors
-
-[x] CICD for release version
-
+[x] ~~fix valid formats, no yeat first and right %xx descriptors~~
+[x] ~~CICD for release version~~
 [] Better cli args descriptions
-
-[] Tests on ErrorParse  
+[x] ~~Tests on ErrorParse~~  
