@@ -22,8 +22,14 @@ jobs:
             archive: zip
     steps:
       - uses: actions/checkout@master
+      - name: Install Rust
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          source $HOME/.cargo/env
+          rustup install 1.74.0
+          rustup override set 1.74.0
       - name: Compile and release
-        uses: rust-build/rust-build.action@v1.7.4
+        uses: rust-build/rust-build.action@v1.4.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
