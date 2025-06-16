@@ -149,4 +149,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Error handling for invalid dates could be more descriptive
 - Limited to Gregorian calendar only
+- It will parse two-digit years as 00YY, isntead of output an error message ([chrono library issue](https://github.com/chronotope/chrono/issues/332))
 

@@ -30,7 +30,7 @@ fn test_specific_date_formats() -> Result<()> {
         ("01-01-2024", "1"),  // First week of 2024
         ("01/01/2024", "1"),  // Same date, different format
         ("15/03/2024", "11"), // Mid-March 2024
-        //("31.12.2023", "52"), // Last week of 2023 // TODO: Fix this tests, depends on the calendar
+        ("31.12.2023", "52"), // Last week of 2023 
     ];
 
     for (input_date, expected_week) in test_cases {

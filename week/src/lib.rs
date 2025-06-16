@@ -92,7 +92,8 @@ mod tests {
         assert!(week("29-02-2023").is_err()); // Invalid leap year date
         assert!(week("2024-01-01").is_err()); // Wrong format order
         assert!(week("").is_err());           // Empty string
-        // assert!(week("01-01-99").is_err());   // Two-digit year  // TODO: Fix this test
+        // TODO: Fix this test w chrono 0.5
+        //assert!(week("01-01-99").is_err());   // Two-digit year  
     }
 
     #[test]
