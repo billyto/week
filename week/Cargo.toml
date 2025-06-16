@@ -12,7 +12,6 @@ keywords = ["cli", "date", "week", "calendar", "iso"]
 categories = ["command-line-utilities", "date-and-time"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-#TODO: update dependencies?
 
 [dependencies]
 chrono = "0.4.41"
