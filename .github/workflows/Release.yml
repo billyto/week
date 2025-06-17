@@ -1,3 +1,9 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '*'
 jobs:
   release:
     name: release ${{ matrix.target }}
